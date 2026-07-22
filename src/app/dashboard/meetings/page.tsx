@@ -247,7 +247,9 @@ export default function Dashboard() {
 
                 {/* Additional Actions (For All) */}
                 <div className="pt-4 border-t border-slate-100 mt-auto flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-3">
-                  <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Aksi Tambahan</span>
+                  <Link href={`/dashboard/meetings/${meeting.id}`} className="text-xs font-bold text-brand-600 hover:text-brand-700 uppercase tracking-wider flex items-center gap-1 hover:underline">
+                    Detail Rapat <span aria-hidden="true">&rarr;</span>
+                  </Link>
                   <div className="flex gap-2">
                     {isAdmin && (
                       <button 

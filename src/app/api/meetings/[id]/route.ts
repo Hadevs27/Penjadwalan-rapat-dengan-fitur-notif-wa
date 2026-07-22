@@ -107,3 +107,21 @@ export async function PUT(req: Request, context: { params: Promise<{ id: string 
 
   return NextResponse.json(updatedMeeting);
 }
+
+export async function DELETE(req: Request, context: { params: Promise<{ id: string }> }) {
+  const session = await getServerSession(authOptions);
+  if (!session || session.user.role !== 'admin') {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const { id } = await context.params;
+  const meetingId = parseInt(id);
+
+  try {
+    await db.delete(meetings).where(eq(meetings.id, meetingId));
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    console.error("Failed to delete meeting", error);
+    return NextResponse.json({ error: "Failed to delete meeting" }, { status: 500 });
+  }
+}

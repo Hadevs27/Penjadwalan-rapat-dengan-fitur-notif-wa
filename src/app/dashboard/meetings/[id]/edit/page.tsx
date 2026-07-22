@@ -62,6 +62,14 @@ export default function EditMeetingPage() {
     });
   };
 
+  const handleSelectAll = () => {
+    if (form.participant_ids.length === users.length && users.length > 0) {
+      setForm(prev => ({ ...prev, participant_ids: [] }));
+    } else {
+      setForm(prev => ({ ...prev, participant_ids: users.map(u => u.id) }));
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -156,9 +164,18 @@ export default function EditMeetingPage() {
 
         {/* Pemilihan Peserta */}
         <div>
-          <h3 className="text-lg font-bold text-slate-800 border-b border-slate-100 pb-2 mb-4 flex items-center gap-2">
-            <Users className="w-5 h-5 text-purple-500" /> Peserta Terundang ({form.participant_ids.length} dipilih)
-          </h3>
+          <div className="flex justify-between items-center border-b border-slate-100 pb-2 mb-4">
+            <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
+              <Users className="w-5 h-5 text-purple-500" /> Peserta Terundang ({form.participant_ids.length} dipilih)
+            </h3>
+            <button 
+              type="button" 
+              onClick={handleSelectAll}
+              className="text-sm font-medium text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-lg transition-colors border border-blue-200"
+            >
+              {form.participant_ids.length === users.length && users.length > 0 ? "Batal Pilih Semua" : "Pilih Semua"}
+            </button>
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 max-h-60 overflow-y-auto p-1">
             {users.map(u => {
               const isSelected = form.participant_ids.includes(u.id);
